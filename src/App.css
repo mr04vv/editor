@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
+.mention {
+  color: #4a85bb;
+  text-decoration: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mentionSuggestions {
+  border-top: 1px solid #eee;
+  background: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  padding-top: 8px;
+  padding-bottom: 8px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  box-sizing: border-box;
+  transform-origin: 50% 0%;
+  transform: scaleY(0);
+  margin: 6px;
 }
 
-.App-link {
-  color: #61dafb;
+.mentionSuggestionsEntryContainer {
+  display: table;
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mentionSuggestionsEntryContainerLeft,
+.mentionSuggestionsEntryContainerRight {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.mentionSuggestionsEntryContainerRight {
+  width: 100%;
+  padding-left: 8px;
+}
+
+.mentionSuggestionsEntry {
+  padding: 7px 10px 3px 10px;
+  transition: background-color 0.4s cubic-bezier(0.27, 1.27, 0.48, 0.56);
+}
+
+.mentionSuggestionsEntry:active {
+  background-color: #cce7ff;
+}
+
+.mentionSuggestionsEntryFocused {
+  composes: mentionSuggestionsEntry;
+  background-color: #e6f3ff;
+}
+
+.mentionSuggestionsEntryText,
+.mentionSuggestionsEntryTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mentionSuggestionsEntryText {
+}
+
+.mentionSuggestionsEntryTitle {
+  font-size: 80%;
+  color: #a7a7a7;
+}
+
+.mentionSuggestionsEntryAvatar {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.ql-mention-list-container {
+  width: 270px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
+  z-index: 9001;
+  overflow: auto;
+}
+
+.ql-mention-loading {
+  line-height: 44px;
+  padding: 0 20px;
+  vertical-align: middle;
+  font-size: 16px;
+}
+
+.ql-mention-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ql-mention-list-item {
+  cursor: pointer;
+  line-height: 44px;
+  font-size: 16px;
+  padding: 0 20px;
+  vertical-align: middle;
+}
+
+.ql-mention-list-item.disabled {
+  cursor: auto;
+}
+
+.ql-mention-list-item.selected {
+  background-color: #d3e1eb;
+  text-decoration: none;
+}
+
+.mention {
+  height: 24px;
+  width: 65px;
+  border-radius: 6px;
+  background-color: #d3e1eb;
+  padding: 3px 0;
+  margin-right: 2px;
+  user-select: all;
+}
+
+.mention > span {
+  margin: 0 3px;
 }
