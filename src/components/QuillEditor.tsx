@@ -114,15 +114,15 @@ const modules = {
       }
     },
   },
-  // "emoji-module": {
-  //   emojiData: emojis,
-  //   customEmojiData: customEmojis,
-  //   preventDrag: true,
-  //   showTitle: true,
-  //   indicator: ":",
-  //   convertEmoticons: false,
-  //   convertShortNames: true,
-  // },
+  "emoji-module": {
+    emojiData: emojis,
+    customEmojiData: customEmojis,
+    preventDrag: true,
+    showTitle: true,
+    indicator: ":",
+    convertEmoticons: false,
+    convertShortNames: true,
+  },
 };
 
 const CustomQuill = styled(ReactQuill)`
@@ -177,7 +177,7 @@ export const QuillEditor = () => {
   const ref2 = useRef<ReactQuill>(null);
   return (
     <div>
-      {/* <TextField
+      <TextField
         onClick={() => ref.current?.focus()}
         rows={4}
         fullWidth
@@ -188,7 +188,7 @@ export const QuillEditor = () => {
             <CustomQuill
               onFocus={rest.onFocus as any}
               onBlur={rest.onBlur as any}
-              theme="bubble"
+              // theme="bubble"
               ref={ref}
               // defaultValue={rawValue}
               // onChange={set}
@@ -196,39 +196,16 @@ export const QuillEditor = () => {
             />
           ),
         }}
-      /> */}
+      />
 
-      <CustomQuill
+      {/* <CustomQuill
         // ref={ref}
         // defaultValue={rawValue}
         // onChange={set}
-        formats={[
-          "background",
-          "bold",
-          "color",
-          "font",
-          "code",
-          "italic",
-          "link",
-          "size",
-          "strike",
-          "script",
-          "underline",
-          "blockquote",
-          // "header",
-          "indent",
-          // "list", <-- commented-out to suppress auto bullets
-          "align",
-          "direction",
-          "code-block",
-          "formula",
-          "image",
-          "video",
-        ]}
         modules={modules}
-      />
+      /> */}
       <Button onClick={onClick}>save</Button>
-      {/* {defaultShowValue && (
+      {defaultShowValue && (
         <TextField
           // onClick={() => ref.current?.focus()}
           rows={4}
@@ -247,7 +224,7 @@ export const QuillEditor = () => {
             ),
           }}
         />
-      )} */}
+      )}
       <Button onClick={onClick2}>save</Button>
     </div>
   );
