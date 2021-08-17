@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "quill-mention";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { BoundsStatic, Delta, DeltaStatic, RangeStatic } from "quill";
 import "@nutrify/quill-emoji-mart-picker/emoji.quill.css";
 import { Emoji, emojis } from "@nutrify/quill-emoji-mart-picker";
-import QuillMarkdown from "quilljs-markdown";
 import MarkdownShortcuts from "quill-markdown-shortcuts";
-import "quilljs-markdown/dist/quilljs-markdown-common-style.css";
+import { QuillField } from "./Wrapper";
+import styled from "styled-components";
+import QuillMarkdown from "quilljs-markdown";
+
 interface UnprivilegedEditor {
   getLength(): number;
   getText(index?: number, length?: number): string;
@@ -66,64 +68,12 @@ const hashValues = [
   { id: 3, value: "Fredrik Sundqvist 2" },
   { id: 4, value: "Patrik Sjölin 2" },
 ];
-const modules2 = {
-  markdownShortcuts: {},
+Quill.register("modules/markdownShortcuts", MarkdownShortcuts);
 
-  mention: {
-    toolbar: false,
-    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-    mentionDenotationChars: ["@", "#"],
-    dataAttributes: [
-      "id",
-      "value",
-      "denotationChar",
-      "link",
-      "target",
-      "disabled",
-      "imageUrl",
-    ],
-    renderItem: (item: any, searchTerm: any) => {
-      return `
-            <div style="display: flex; align-items: center;">
-            <div style="margin-right: 8px; display: flex; align-items: center;">
-              <img src="${item.imageUrl}" width=30 height=30>
-              </div>
-              ${item.value}
-            </div>`;
-    },
-    source: function (searchTerm: any, renderList: any, mentionChar: any) {
-      let values;
-
-      if (mentionChar === "@") {
-        values = atValues;
-      } else {
-        values = hashValues;
-      }
-
-      if (searchTerm.length === 0) {
-        renderList(values, searchTerm);
-      } else {
-        const matches = [];
-        for (let i = 0; i < values.length; i++)
-          if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase()))
-            matches.push(values[i]);
-        renderList(matches, searchTerm);
-      }
-    },
-  },
-  "emoji-module": {
-    emojiData: emojis,
-    customEmojiData: customEmojis,
-    preventDrag: true,
-    showTitle: true,
-    indicator: ":",
-    convertEmoticons: false,
-    convertShortNames: true,
-  },
-};
 const modules = {
+  toolbar: false,
+  markdownShortcuts: {},
   mention: {
-    toolbar: false,
     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
     mentionDenotationChars: ["@", "#"],
     dataAttributes: [
@@ -164,22 +114,33 @@ const modules = {
       }
     },
   },
-  "emoji-module": {
-    emojiData: emojis,
-    customEmojiData: customEmojis,
-    preventDrag: true,
-    showTitle: true,
-    indicator: ":",
-    convertEmoticons: false,
-    convertShortNames: true,
-  },
+  // "emoji-module": {
+  //   emojiData: emojis,
+  //   customEmojiData: customEmojis,
+  //   preventDrag: true,
+  //   showTitle: true,
+  //   indicator: ":",
+  //   convertEmoticons: false,
+  //   convertShortNames: true,
+  // },
 };
-Quill.register("modules/markdownShortcuts", MarkdownShortcuts);
+
+const CustomQuill = styled(ReactQuill)`
+  width: 100%;
+  .ql-editor {
+    font-size: 16px;
+  }
+  .ql-emoji {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 export const QuillEditor = () => {
   const [value, setValue] = useState<string>("");
   const [showValue, setShowValue] = useState<Delta>();
   const [rawValue, setRawValue] = useState<Delta>();
+  const [defaultShowValue, setDefaultShowValue] = useState<Delta>();
 
   useEffect(() => {
     const savedRaw = localStorage.getItem("quill");
@@ -187,33 +148,107 @@ export const QuillEditor = () => {
       return;
     }
     const cc = JSON.parse(savedRaw);
-    setShowValue(cc);
+    setDefaultShowValue(cc);
+    setTimeout(() => {
+      ref.current?.focus();
+    }, 50);
   }, []);
 
   const set = (v: string, _: any, __: any, editor: UnprivilegedEditor) => {
-    setRawValue(editor.getContents());
+    // setRawValue(editor.getContents());
     // console.debug(JSON.stringify(editor.getContents()));
     setValue(v);
   };
 
   const onClick = () => {
+    const rawValue = ref.current?.getEditor().getContents();
+
     const raw = JSON.stringify(rawValue);
     localStorage.setItem("quill", raw);
   };
+  const onClick2 = () => {
+    const rawValue = ref2.current?.getEditor().getContents();
 
+    const raw = JSON.stringify(rawValue);
+    console.debug(raw);
+    localStorage.setItem("quill", raw);
+  };
+  const ref = useRef<ReactQuill>(null);
+  const ref2 = useRef<ReactQuill>(null);
   return (
     <div>
-      <ReactQuill defaultValue={rawValue} onChange={set} modules={modules} />
+      {/* <TextField
+        onClick={() => ref.current?.focus()}
+        rows={4}
+        fullWidth
+        multiline
+        variant="outlined"
+        InputProps={{
+          inputComponent: ({ ...rest }) => (
+            <CustomQuill
+              onFocus={rest.onFocus as any}
+              onBlur={rest.onBlur as any}
+              theme="bubble"
+              ref={ref}
+              // defaultValue={rawValue}
+              // onChange={set}
+              modules={modules}
+            />
+          ),
+        }}
+      /> */}
+
+      <CustomQuill
+        // ref={ref}
+        // defaultValue={rawValue}
+        // onChange={set}
+        formats={[
+          "background",
+          "bold",
+          "color",
+          "font",
+          "code",
+          "italic",
+          "link",
+          "size",
+          "strike",
+          "script",
+          "underline",
+          "blockquote",
+          // "header",
+          "indent",
+          // "list", <-- commented-out to suppress auto bullets
+          "align",
+          "direction",
+          "code-block",
+          "formula",
+          "image",
+          "video",
+        ]}
+        modules={modules}
+      />
       <Button onClick={onClick}>save</Button>
-      {showValue && (
-        <ReactQuill
-          defaultValue={showValue}
-          onChange={set}
-          modules={modules2}
-          // formats={["mention", "emoji", "custom", "image", "img", "emoji-module"]}
+      {/* {defaultShowValue && (
+        <TextField
+          // onClick={() => ref.current?.focus()}
+          rows={4}
+          fullWidth
+          multiline
+          variant="outlined"
+          InputProps={{
+            inputComponent: () => (
+              <CustomQuill
+                theme="bubble"
+                ref={ref2}
+                defaultValue={defaultShowValue}
+                // onChange={set}
+                modules={modules}
+              />
+            ),
+          }}
         />
-      )}
-      <Button onClick={onClick}>save</Button>
+      )} */}
+      <Button onClick={onClick2}>save</Button>
     </div>
   );
 };
