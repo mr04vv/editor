@@ -3,6 +3,7 @@ import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { withHistory } from "slate-history";
 import {
+  AnyObject,
   createAlignPlugin,
   createAutoformatPlugin,
   createBlockquotePlugin,
@@ -52,6 +53,7 @@ import {
   MentionSelect,
   Plate,
   StyledLeaf,
+  TNode,
   useEventEditorId,
   useFindReplacePlugin,
   useMentionPlugin,
@@ -197,6 +199,8 @@ export const CodeMirrorEditor = () => {
     }, 100);
   };
 
+  const [a, setA] = useState<TNode<AnyObject>[]>([]);
+
   return (
     <>
       <Plate
@@ -206,6 +210,7 @@ export const CodeMirrorEditor = () => {
         components={components}
         options={defaultOptions}
         onChange={(value) => {
+          setA(value);
           console.debug(JSON.stringify(value));
         }}
       />
@@ -213,6 +218,17 @@ export const CodeMirrorEditor = () => {
       <MentionSelect
         {...getMentionSelectProps()}
         renderLabel={renderMentionLabel}
+      />
+      <Plate
+        id="3"
+        // editableProps={editableProps}
+        plugins={pluginsMemo}
+        value={a}
+        components={components}
+        options={defaultOptions}
+        onChange={(value) => {
+          console.debug(JSON.stringify(value));
+        }}
       />
     </>
   );

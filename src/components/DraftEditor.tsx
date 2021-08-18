@@ -1,4 +1,4 @@
-import { EditorState } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import { useEffect, useRef, useState } from "react";
 import { DraftField } from "./Wrapper";
@@ -13,6 +13,9 @@ export const DraftEditor = () => {
     EditorState.createEmpty()
   );
   const onChange = (editorState: EditorState) => {
+    console.debug(
+      JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+    );
     setEditorState(editorState);
   };
 

@@ -164,6 +164,7 @@ export const QuillEditor = () => {
     const rawValue = ref.current?.getEditor().getContents();
 
     const raw = JSON.stringify(rawValue);
+    console.debug(raw);
     localStorage.setItem("quill", raw);
   };
   const onClick2 = () => {

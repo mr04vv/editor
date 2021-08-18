@@ -16,7 +16,7 @@ function App() {
         <Tab value={2} label="codeMirror" />
       </Tabs>
       <div style={{ marginTop: "30px" }}>
-        {/* {tabIndex === 0 && <DraftEditor />} */}
+        {tabIndex === 0 && <DraftEditor />}
         {tabIndex === 1 && <QuillEditor />}
         {tabIndex === 2 && <CodeMirrorEditor />}
       </div>
