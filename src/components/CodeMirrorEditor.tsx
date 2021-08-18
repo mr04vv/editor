@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { withHistory } from "slate-history";
+import 'core-js/features/object/'
 import {
   AnyObject,
   createAlignPlugin,
@@ -206,7 +207,7 @@ export const CodeMirrorEditor = () => {
       <Plate
         id="2"
         editableProps={editableProps}
-        plugins={pluginsMemo}
+        // plugins={pluginsMemo}
         components={components}
         options={defaultOptions}
         onChange={(value) => {
@@ -214,7 +215,7 @@ export const CodeMirrorEditor = () => {
           console.debug(JSON.stringify(value));
         }}
       />
-      <Emoj addEmoji={addEmoji} />
+      {/* <Emoj addEmoji={addEmoji} /> */}
       <MentionSelect
         {...getMentionSelectProps()}
         renderLabel={renderMentionLabel}
@@ -222,7 +223,7 @@ export const CodeMirrorEditor = () => {
       <Plate
         id="3"
         // editableProps={editableProps}
-        plugins={pluginsMemo}
+        // plugins={pluginsMemo}
         value={a}
         components={components}
         options={defaultOptions}

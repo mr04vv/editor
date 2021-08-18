@@ -2,23 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "quill-mention";
-import { Button, TextField } from "@material-ui/core";
-import { BoundsStatic, Delta, DeltaStatic, RangeStatic } from "quill";
-import "@nutrify/quill-emoji-mart-picker/emoji.quill.css";
+import 'element-remove'
+// import { Button, TextField } from "@material-ui/core";
+// import { BoundsStatic, Delta, DeltaStatic, RangeStatic } from "quill";
+// import "@nutrify/quill-emoji-mart-picker/emoji.quill.css";
+import './a.css'
 import { Emoji, emojis } from "@nutrify/quill-emoji-mart-picker";
-import MarkdownShortcuts from "quill-markdown-shortcuts";
-import { QuillField } from "./Wrapper";
-import styled from "styled-components";
-import QuillMarkdown from "quilljs-markdown";
+// import MarkdownShortcuts from "quill-markdown-shortcuts";
+// import { QuillField } from "./Wrapper";
+// import styled from "styled-components";
+// import QuillMarkdown from "quilljs-markdown";
 
-interface UnprivilegedEditor {
-  getLength(): number;
-  getText(index?: number, length?: number): string;
-  getHTML(): string;
-  getBounds(index: number, length?: number): BoundsStatic;
-  getSelection(focus?: boolean): RangeStatic;
-  getContents(index?: number, length?: number): DeltaStatic;
-}
+// interface UnprivilegedEditor {
+//   getLength(): number;
+//   getText(index?: number, length?: number): string;
+//   getHTML(): string;
+//   getBounds(index: number, length?: number): BoundsStatic;
+//   getSelection(focus?: boolean): RangeStatic;
+//   getContents(index?: number, length?: number): DeltaStatic;
+// }
 
 const customEmojis = [
   {
@@ -68,11 +70,10 @@ const hashValues = [
   { id: 3, value: "Fredrik Sundqvist 2" },
   { id: 4, value: "Patrik Sjölin 2" },
 ];
-Quill.register("modules/markdownShortcuts", MarkdownShortcuts);
+// Quill.register("modules/markdownShortcuts", MarkdownShortcuts);
 
 const modules = {
   toolbar: false,
-  markdownShortcuts: {},
   mention: {
     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
     mentionDenotationChars: ["@", "#"],
@@ -125,60 +126,51 @@ const modules = {
   },
 };
 
-const CustomQuill = styled(ReactQuill)`
-  width: 100%;
-  .ql-editor {
-    font-size: 16px;
-  }
-  .ql-emoji {
-    width: 20px;
-    height: 20px;
-  }
-`;
+
 
 export const QuillEditor = () => {
   const [value, setValue] = useState<string>("");
-  const [showValue, setShowValue] = useState<Delta>();
-  const [rawValue, setRawValue] = useState<Delta>();
-  const [defaultShowValue, setDefaultShowValue] = useState<Delta>();
+  // const [showValue, setShowValue] = useState<Delta>();
+  // const [rawValue, setRawValue] = useState<Delta>();
+  // const [defaultShowValue, setDefaultShowValue] = useState<Delta>();
 
-  useEffect(() => {
-    const savedRaw = localStorage.getItem("quill");
-    if (!savedRaw) {
-      return;
-    }
-    const cc = JSON.parse(savedRaw);
-    setDefaultShowValue(cc);
-    setTimeout(() => {
-      ref.current?.focus();
-    }, 50);
-  }, []);
+  // useEffect(() => {
+  //   const savedRaw = localStorage.getItem("quill");
+  //   if (!savedRaw) {
+  //     return;
+  //   }
+  //   const cc = JSON.parse(savedRaw);
+  //   setDefaultShowValue(cc);
+  //   setTimeout(() => {
+  //     ref.current?.focus();
+  //   }, 50);
+  // }, []);
 
-  const set = (v: string, _: any, __: any, editor: UnprivilegedEditor) => {
+  const set = (v: string, _: any, __: any) => {
     // setRawValue(editor.getContents());
     // console.debug(JSON.stringify(editor.getContents()));
     setValue(v);
   };
 
-  const onClick = () => {
-    const rawValue = ref.current?.getEditor().getContents();
+  // const onClick = () => {
+  //   const rawValue = ref.current?.getEditor().getContents();
 
-    const raw = JSON.stringify(rawValue);
-    console.debug(raw);
-    localStorage.setItem("quill", raw);
-  };
-  const onClick2 = () => {
-    const rawValue = ref2.current?.getEditor().getContents();
+  //   const raw = JSON.stringify(rawValue);
+  //   console.debug(raw);
+  //   localStorage.setItem("quill", raw);
+  // };
+  // const onClick2 = () => {
+  //   const rawValue = ref2.current?.getEditor().getContents();
 
-    const raw = JSON.stringify(rawValue);
-    console.debug(raw);
-    localStorage.setItem("quill", raw);
-  };
-  const ref = useRef<ReactQuill>(null);
-  const ref2 = useRef<ReactQuill>(null);
+  //   const raw = JSON.stringify(rawValue);
+  //   console.debug(raw);
+  //   localStorage.setItem("quill", raw);
+  // };
+  // const ref = useRef<ReactQuill>(null);
+  // const ref2 = useRef<ReactQuill>(null);
   return (
     <div>
-      <TextField
+      {/* <TextField
         onClick={() => ref.current?.focus()}
         rows={4}
         fullWidth
@@ -197,15 +189,15 @@ export const QuillEditor = () => {
             />
           ),
         }}
-      />
+      /> */}
 
-      {/* <CustomQuill
+      <ReactQuill
         // ref={ref}
-        // defaultValue={rawValue}
+        defaultValue={value}
         // onChange={set}
         modules={modules}
-      /> */}
-      <Button onClick={onClick}>save</Button>
+      />
+      {/* <Button onClick={onClick}>save</Button>
       {defaultShowValue && (
         <TextField
           // onClick={() => ref.current?.focus()}
@@ -226,7 +218,7 @@ export const QuillEditor = () => {
           }}
         />
       )}
-      <Button onClick={onClick2}>save</Button>
+      <Button onClick={onClick2}>save</Button> */}
     </div>
   );
 };
